@@ -1,7 +1,0 @@
-[package]
-name = "scatter-plot"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-plotters = "0.3"
