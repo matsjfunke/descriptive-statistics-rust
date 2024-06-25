@@ -3,9 +3,10 @@ use std::fs::File;
 use csv::Reader;
 use serde_derive::Deserialize;
 use plotters::prelude::*;
+use std::collections::HashMap; // import from std library
 
 #[derive(Debug, Deserialize)]
-struct Record {
+struct Player {
     #[serde(rename = "Name")]
     name: String,
     #[serde(rename = "Position")]
@@ -16,32 +17,46 @@ struct Record {
     goals: i32, // Assuming goals is an integer
 }
 
-fn read_csv(file_path: &str) -> Result<Vec<Record>, Box<dyn Error>> {
+fn read_csv(file_path: &str) -> Result<Vec<Player>, Box<dyn Error>> {
     let file = File::open(file_path)?;
     let mut rdr = Reader::from_reader(file);
 
     let mut data = Vec::new();
 
     for result in rdr.deserialize() {
-        let record: Record = result?;
+        let player: Player = result?;
         // Filter out goalkeepers
-        if record.position != "Goalkeeper" {
-            data.push(record);
+        if player.position != "Goalkeeper" {
+            data.push(player);
         }
     }
 
+    println!("{:?}", data);
     Ok(data)
 }
 
 // Function to print player details
-fn print_players(records: &[Record]) {
-    for record in records {
-        println!("Name: {}, Market Value: {}, Goals: {}", record.name, record.market_value, record.goals);
+fn print_all_players(players: &[Player]) {
+    for player in players {
+        println!("Name: {}, Market Value: {}, Goals: {}", player.name, player.market_value, player.goals);
     }
 }
 
+// Function to print top 10 goals & market_value
+fn print_top_10(players: &[Player]) {
+    let mut top_players = HashMap::new();
+
+    for player in players {
+        top_players.insert(String::from(player.name.clone()), player.market_value);
+    }
+
+    let player_name = String::from("Florian Wirtz");
+    let top_player = top_players.get(&player_name).copied().unwrap_or(0);
+    println!("{:?}", top_player);
+}
+
 // Function to plot scatter plot
-fn plot_scatter(records: &[Record]) -> Result<(), Box<dyn Error>> {
+fn plot_scatter(players : &[Player]) -> Result<(), Box<dyn Error>> {
     let root_area = BitMapBackend::new("scatter_plot.png", (1000, 800)).into_drawing_area();
     root_area.fill(&WHITE)?;
 
@@ -56,7 +71,7 @@ fn plot_scatter(records: &[Record]) -> Result<(), Box<dyn Error>> {
 
     // Draw the scatter plot
     chart.draw_series(
-        records.iter().map(|record| Circle::new((record.goals, record.market_value), 3, BLUE.filled())),
+        players.iter().map(|player| Circle::new((player.goals, player.market_value), 3, BLUE.filled())),
     )?;
 
     Ok(())
@@ -64,13 +79,18 @@ fn plot_scatter(records: &[Record]) -> Result<(), Box<dyn Error>> {
 
 fn main() -> Result<(), Box<dyn Error>> {
     // Read data from CSV
-    let records = read_csv("euro2024_players.csv")?;
+    let players = read_csv("euro2024_players.csv")?;
 
     // Print player details
-    print_players(&records);
+    // print_all_players(&players);
 
     // Plot scatter plot
-    plot_scatter(&records)?;
+    plot_scatter(&players)?;
+
+    // print top 10 most valuable players
+     print_top_10(&players);
+    // print top 10 players with most national team goals
+    // print_top_10(&players);
 
     Ok(())
 }
