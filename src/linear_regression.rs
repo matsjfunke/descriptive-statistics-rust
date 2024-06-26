@@ -58,6 +58,10 @@ pub fn train_linear_regression(data: &[(i32, i32)], learning_rate: f64, n_iterat
     (m, b)
 }
 
-pub fn predict(x: f64, m: f64, b: f64) -> f64 {
+pub fn predict_market_value(x: f64, m: f64, b: f64) -> f64 {
     m * x + b
+}
+
+pub fn predict_goals(y: f64, m: f64, b: f64) -> f64 {
+    (y - b) / m
 }

@@ -10,7 +10,7 @@ mod statistics;
 mod plot;
 use crate::plot::plot_scatter;
 mod linear_regression;
-use linear_regression::{extract_goals_and_market_value, train_linear_regression, predict};
+use linear_regression::{extract_goals_and_market_value, train_linear_regression, predict_market_value, predict_goals};
 
 fn read_csv(file_path: &str) -> Result<Vec<Player>, Box<dyn Error>> {
     let file = File::open(file_path)?;
@@ -105,8 +105,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!("Final parameters: m = {}, b = {}", m, b);
 
     let goals = 5.5;
-    let pred_mv = predict(goals, m, b);
+    let pred_mv = predict_market_value(goals, m, b);
     println!("Prediction: a player with {} goals has an expected market value of {:.2} €", goals, pred_mv);
+
+    let market_value = 17603072.43;
+    let pred_goals = predict_goals(market_value, m, b);
+    println!("Prediction: a player with  market value of {:.2} € is expected to have {:.1} nationalteam goals ", market_value, pred_goals);
 
     Ok(())
 }

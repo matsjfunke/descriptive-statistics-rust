@@ -2,14 +2,14 @@
 - on [Kaggle dataset: UEFA EURO 2024 - Players](https://www.kaggle.com/datasets/damirdizdarevic/uefa-euro-2024-players)
   
 ## calulating descriptive statistics
-    - mean
-    - median 
-    - mode
-    - range
-    - variance
-    - standard deviation
+- mean
+- median 
+- mode
+- range
+- variance
+- standard deviation
 ## applying linear regression
-    - predict market value given nationalteam goals
+- predict market value given nationalteam goals & vice versa
 
 ## plotting market-value agaist scored national team goals
 ![plot](images/labeled_scatter.png)
@@ -38,7 +38,7 @@ open images/scatter_plot.png
 │   ├── labeled_scatter.png
 │   └── scatter_plot.png
 └── src
-    ├── linear_regression.rs -> calulates linear_regression to predict market-value given nationalteam-goals
+    ├── linear_regression.rs -> calulates linear_regression to predict market-value given nationalteam-goals & vice versa
     ├── main.rs -> entrypoint & dataset processing (csv to rust vector)
     ├── models.rs -> defines data structures
     ├── statistics.rs -> function to compute statistical measures
