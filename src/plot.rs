@@ -24,4 +24,3 @@ pub fn plot_scatter(players : &[Player]) -> Result<(), Box<dyn Error>> {
 
     Ok(())
 }
-

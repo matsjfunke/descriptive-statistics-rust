@@ -9,6 +9,8 @@ use models::{Player, SortingCriteria}; // Import types from models
 mod statistics;
 mod plot;
 use crate::plot::plot_scatter;
+mod linear_regression;
+use linear_regression::{extract_goals_and_market_value, train_linear_regression, predict};
 
 fn read_csv(file_path: &str) -> Result<Vec<Player>, Box<dyn Error>> {
     let file = File::open(file_path)?;
@@ -91,6 +93,20 @@ fn main() -> Result<(), Box<dyn Error>> {
     println!();
     // Print top 10 players with most national team goals
     print_top_10(&players, SortingCriteria::Goals);
+    println!();
+
+    // linear regression training 
+    let data = extract_goals_and_market_value("euro2024_players.csv");
+
+    // Train linear regression model
+    let learning_rate = 0.01;
+    let n_iterations = 1000;
+    let (m, b) = train_linear_regression(&data, learning_rate, n_iterations);
+    println!("Final parameters: m = {}, b = {}", m, b);
+
+    let goals = 5.5;
+    let pred_mv = predict(goals, m, b);
+    println!("Prediction: a player with {} goals has an expected market value of {:.2} €", goals, pred_mv);
 
     Ok(())
 }
