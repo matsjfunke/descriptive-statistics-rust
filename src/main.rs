@@ -9,6 +9,8 @@ use crate::top_ten::print_top_10;  // Import the print_top_10 function from the 
 mod models; 
 use models::{Player, SortingCriteria}; // Import types from models
 
+mod statistics;
+
 fn read_csv(file_path: &str) -> Result<Vec<Player>, Box<dyn Error>> {
     let file = File::open(file_path)?;
     let mut rdr = Reader::from_reader(file);
@@ -59,16 +61,55 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Read data from CSV
     let players = read_csv("euro2024_players.csv")?;
 
-    // Print player details
-    // print_all_players(&players);
+    // Print statistical measures
+    if let Some(mean_market_value) = statistics::mean(&players, &SortingCriteria::MarketValue) {
+        println!("Mean Market Value: {}", mean_market_value);
+    }
+    if let Some(median_market_value) = statistics::median(&players, &SortingCriteria::MarketValue) {
+        println!("Median Market Value: {}", median_market_value);
+    }
+    if let Some(mode_market_value) = statistics::mode(&players, &SortingCriteria::MarketValue) {
+        println!("Mode Market Value: {}", mode_market_value);
+    }
+    if let Some(range_market_value) = statistics::range(&players, &SortingCriteria::MarketValue) {
+        println!("Range Market Value: {}", range_market_value);
+    }
+    if let Some(variance_market_value) = statistics::variance(&players, &SortingCriteria::MarketValue) {
+        println!("Variance Market Value: {}", variance_market_value);
+    }
+    if let Some(std_dev_market_value) = statistics::standard_deviation(&players, &SortingCriteria::MarketValue) {
+        println!("Standard Deviation Market Value: {}", std_dev_market_value);
+    }
+
+    if let Some(mean_goals) = statistics::mean(&players, &SortingCriteria::Goals) {
+        println!("Mean Goals: {}", mean_goals);
+    }
+    if let Some(median_goals) = statistics::median(&players, &SortingCriteria::Goals) {
+        println!("Median Goals: {}", median_goals);
+    }
+    if let Some(mode_goals) = statistics::mode(&players, &SortingCriteria::Goals) {
+        println!("Mode Goals: {}", mode_goals);
+    }
+    if let Some(range_goals) = statistics::range(&players, &SortingCriteria::Goals) {
+        println!("Range Goals: {}", range_goals);
+    }
+    if let Some(variance_goals) = statistics::variance(&players, &SortingCriteria::Goals) {
+        println!("Variance Goals: {}", variance_goals);
+    }
+    if let Some(std_dev_goals) = statistics::standard_deviation(&players, &SortingCriteria::Goals) {
+        println!("Standard Deviation Goals: {}", std_dev_goals);
+    }
 
     // Plot scatter plot
-    plot_scatter(&players)?;
+    // plot_scatter(&players)?;
 
-    // print top 10 most valuable players
-    print_top_10(&players, SortingCriteria::MarketValue);
-    // print top 10 players with most national team goals
-    print_top_10(&players, SortingCriteria::Goals);
+    // Print player details
+    // print_all_players(&players);
+    
+    // Print top 10 most valuable players
+    // print_top_10(&players, SortingCriteria::MarketValue);
+    // Print top 10 players with most national team goals
+    // print_top_10(&players, SortingCriteria::Goals);
 
     Ok(())
 }

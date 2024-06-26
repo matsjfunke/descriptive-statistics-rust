@@ -28,5 +28,6 @@ open images/scatter_plot.png
 └── src
     ├── main.rs -> entrypoint & dataset processing (csv to rust vector)
     ├── models.rs -> defines data structures
+    ├── statistics.rs -> function to compute statistical measures
     └── top_ten.rs -> function for printing top 10 players
 ```
