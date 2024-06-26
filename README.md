@@ -1,4 +1,4 @@
-# Using Rust to do some basic data-science / descriptive statistics 
+# Rust for some basic data-science / descriptive statistics 
 - on the [Kaggle dataset: UEFA EURO 2024 - Players](https://www.kaggle.com/datasets/damirdizdarevic/uefa-euro-2024-players)
   
 ## plotting market-value agaist scored national team goals
@@ -30,5 +30,6 @@ open images/scatter_plot.png
     ├── main.rs -> entrypoint & dataset processing (csv to rust vector)
     ├── models.rs -> defines data structures
     ├── statistics.rs -> function to compute statistical measures
+    ├── plot.rs -> plot relationship of goals x-axis and market-value y-axis
     └── top_ten.rs -> function for printing top 10 players
 ```
