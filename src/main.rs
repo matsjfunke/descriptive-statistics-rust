@@ -1,26 +1,13 @@
 use std::error::Error;
 use std::fs::File;
 use csv::Reader;
-use serde_derive::Deserialize;
 use plotters::prelude::*;
 
-#[derive(Debug, Deserialize, Clone)]
-struct Player {
-    #[serde(rename = "Name")]
-    name: String,
-    #[serde(rename = "Position")]
-    position: String,
-    #[serde(rename = "MarketValue")]
-    market_value: i32,
-    #[serde(rename = "Goals")]
-    goals: i32,
-}
+mod top_ten;
+use crate::top_ten::print_top_10;  // Import the print_top_10 function from the top_ten module
 
-// Enum to specify the sorting criteria
-enum SortingCriteria {
-    MarketValue,
-    Goals,
-}
+mod models; 
+use models::{Player, SortingCriteria}; // Import types from models
 
 fn read_csv(file_path: &str) -> Result<Vec<Player>, Box<dyn Error>> {
     let file = File::open(file_path)?;
@@ -43,37 +30,6 @@ fn read_csv(file_path: &str) -> Result<Vec<Player>, Box<dyn Error>> {
 fn print_all_players(players: &[Player]) {
     for player in players {
         println!("Name: {}, Market Value: {}, Goals: {}", player.name, player.market_value, player.goals);
-    }
-}
-
-// Function to print top 10 goals & market_value
-fn print_top_10(players: &[Player], criteria: SortingCriteria) {
-    // Sort players based on the specified criteria
-    let mut sorted_players = players.to_vec();
-    match criteria {
-        SortingCriteria::MarketValue => {
-            sorted_players.sort_by(|a, b| b.market_value.partial_cmp(&a.market_value).unwrap_or(std::cmp::Ordering::Equal));
-        },
-        SortingCriteria::Goals => {
-            sorted_players.sort_by(|a, b| b.goals.cmp(&a.goals));
-        },
-    }
-
-    // Print the top 10 players or less if fewer than 10 players exist
-    let num_players_to_print = std::cmp::min(10, sorted_players.len());
-    match criteria {
-        SortingCriteria::MarketValue => {
-            println!("Top {} most valuable players:", num_players_to_print);
-            for (rank, player) in sorted_players.iter().take(num_players_to_print).enumerate() {
-                println!("{}. {} - Market Value: {}", rank + 1, player.name, player.market_value);
-            }
-        },
-        SortingCriteria::Goals => {
-            println!("Top {} players with most goals:", num_players_to_print);
-            for (rank, player) in sorted_players.iter().take(num_players_to_print).enumerate() {
-                println!("{}. {} - Goals: {}", rank + 1, player.name, player.goals);
-            }
-        },
     }
 }
 
