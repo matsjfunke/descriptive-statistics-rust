@@ -10,6 +10,7 @@
 git clone https://github.com/matsjfunke/descriptive-statistics-rust.git
 # run main.rs
 cargo run
+# view descriptive statistics
 # view top 10 most valueable players in the euro 2024
 # view top 10 best national goal scorers of prior to euro 2024
 # view plot
