@@ -30,6 +30,7 @@ fn read_csv(file_path: &str) -> Result<Vec<Player>, Box<dyn Error>> {
 
 // Function to print player details
 fn print_all_players(players: &[Player]) {
+    println!("All non Goalkeepers in the EURO 2024");
     for player in players {
         println!("Name: {}, Market Value: {}, Goals: {}", player.name, player.market_value, player.goals);
     }
@@ -61,6 +62,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     // Read data from CSV
     let players = read_csv("euro2024_players.csv")?;
 
+    // Print player details
+    print_all_players(&players);
+    println!();
+    
     // Print statistical measures
     if let Some(mean_market_value) = statistics::mean(&players, &SortingCriteria::MarketValue) {
         println!("Mean Market Value: {}", mean_market_value);
@@ -99,17 +104,16 @@ fn main() -> Result<(), Box<dyn Error>> {
     if let Some(std_dev_goals) = statistics::standard_deviation(&players, &SortingCriteria::Goals) {
         println!("Standard Deviation Goals: {}", std_dev_goals);
     }
+    println!();
 
     // Plot scatter plot
-    // plot_scatter(&players)?;
+    plot_scatter(&players)?;
 
-    // Print player details
-    // print_all_players(&players);
-    
     // Print top 10 most valuable players
-    // print_top_10(&players, SortingCriteria::MarketValue);
+    print_top_10(&players, SortingCriteria::MarketValue);
+    println!();
     // Print top 10 players with most national team goals
-    // print_top_10(&players, SortingCriteria::Goals);
+    print_top_10(&players, SortingCriteria::Goals);
 
     Ok(())
 }
