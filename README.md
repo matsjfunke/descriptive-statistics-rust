@@ -28,6 +28,8 @@ cargo run
 open images/scatter_plot.png
 ```
 
+![plot](images/lin_reg_scatter.png)
+
 ## Project Structure
 ```
 ├── Cargo.lock
@@ -36,12 +38,13 @@ open images/scatter_plot.png
 ├── euro2024_players.csv -> dataset
 ├── images
 │   ├── labeled_scatter.png
+│   ├── lin_reg_scatter.png
 │   └── scatter_plot.png
 └── src
     ├── linear_regression.rs -> calulates linear_regression to predict market-value given nationalteam-goals & vice versa
     ├── main.rs -> entrypoint & dataset processing (csv to rust vector)
     ├── models.rs -> defines data structures
     ├── statistics.rs -> function to compute statistical measures
-    ├── plot.rs -> plot relationship of goals x-axis and market-value y-axis
+    ├── plot.rs -> plot relationship of goals x-axis and market-value y-axis & linear function
     └── top_ten.rs -> function for printing top 10 players
 ```

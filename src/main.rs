@@ -8,7 +8,7 @@ mod models;
 use models::{Player, SortingCriteria}; // Import types from models
 mod statistics;
 mod plot;
-use crate::plot::plot_scatter;
+use crate::plot::{plot_all_scatter, plot_scatter_with_regression};
 mod linear_regression;
 use linear_regression::{extract_goals_and_market_value, train_linear_regression, predict_market_value, predict_goals};
 
@@ -85,8 +85,8 @@ fn main() -> Result<(), Box<dyn Error>> {
     }
     println!();
 
-    // Plot scatter plot
-    plot_scatter(&players)?;
+    // Plot all players
+    plot_all_scatter(&players)?;
 
     // Print top 10 most valuable players
     print_top_10(&players, SortingCriteria::MarketValue);
@@ -111,6 +111,10 @@ fn main() -> Result<(), Box<dyn Error>> {
     let market_value = 17603072.43;
     let pred_goals = predict_goals(market_value, m, b);
     println!("Prediction: a player with  market value of {:.2} € is expected to have {:.1} nationalteam goals ", market_value, pred_goals);
+
+
+    // plot players in regression and regression function
+    plot_scatter_with_regression(&players, m, b)?;
 
     Ok(())
 }
